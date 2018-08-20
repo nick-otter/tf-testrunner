@@ -40,7 +40,7 @@ class Runner(object):
     def _terraform_init(self):
         subprocess.call(["terraform", "init", self.tmpdir])
 
-    def _teraform_plan(self):
+    def _terraform_plan(self):
         os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
     def snippet_to_json(self):
@@ -61,7 +61,7 @@ class Runner(object):
         self._write_test_tf()
         self._copy_tf_files()
         self._terraform_init()
-        self._teraform_plan()
+        self._terraform_plan()
         json_snippet = self.snippet_to_json()
         result = self.json_to_dict(json_snippet)
         self.result = result

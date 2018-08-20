@@ -31,8 +31,8 @@ class TestRunnerMethods(unittest.TestCase):
         subprocess_mock.assert_called_once_with(["terraform", "init", self.tmpdir])
 
     @mock.patch("os.system")
-    def test_teraform_plan(self, os_mock):
-        Runner._teraform_plan(self)
+    def test_terraform_plan(self, os_mock):
+        Runner._terraform_plan(self)
         os_mock.assert_called_once_with(
             "terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
 
