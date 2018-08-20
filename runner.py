@@ -10,8 +10,7 @@ import glob
 from tf_assertion_helper import finder
 
 class Runner(object):
-    """
-    Terraform converter, converting .tf files into JSON and Python.
+    """Terraform converter, converting .tf files into JSON and Python.
 
     Pass in .tf file as argument on initialisation.
     """
@@ -21,14 +20,19 @@ class Runner(object):
         self.run()
 
     def _mktmpdir(self):
+        """Assign make temp directory to self variable."""
         self.tmpdir = tempfile.mkdtemp()
 
     def _write_test_tf(self):
+        """Write .tf file in temp directory."""
         tmp_mytf_file = open("%s/mytf.tf" % (self.tmpdir), "w")
         tmp_mytf_file.write(self.snippet)
         tmp_mytf_file.close()
 
     def _copy_tf_files(self):
+        """Remove terraform cache.
+
+        Copy all .tf files from script directory to temp directory."""
         os.system("rm -rf .terraform/modules")
         os.system("mkdir %s/mymodule" % self.tmpdir)
 
@@ -38,12 +42,15 @@ class Runner(object):
                 shutil.copy(file, "%s/mymodule" % (self.tmpdir))
 
     def _terraform_init(self):
-        subprocess.call(["terraform", "init", self.tmpdir])
+        """Execute terraform init in temp directory."""
+        os.system("terraform init %s" % (self.tmpdir))
 
     def _terraform_plan(self):
+        """Execute terraform plan and save output in temp directory tfplan file."""
         os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
     def snippet_to_json(self):
+        """Return terraform plan file as json."""
         return subprocess.check_output(["tfjson", "%s/mytf.tfplan" % (self.tmpdir)])
 
     @staticmethod

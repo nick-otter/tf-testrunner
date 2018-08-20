@@ -25,10 +25,10 @@ class TestRunnerMethods(unittest.TestCase):
         Runner._removetmpdir(self)
         shutil_mock.assert_called_once_with(self.tmpdir)
 
-    @mock.patch("subprocess.call")
-    def test__terraform_init(self, subprocess_mock):
+    @mock.patch("os.system")
+    def test__terraform_init(self, os_mock):
         Runner._terraform_init(self)
-        subprocess_mock.assert_called_once_with(["terraform", "init", self.tmpdir])
+        os_mock.assert_called_once_with("terraform init " + self.tmpdir)
 
     @mock.patch("os.system")
     def test_terraform_plan(self, os_mock):
@@ -60,7 +60,7 @@ class TestE2E(unittest.TestCase):
         self.snippet = """
         provider "aws" {
             region  = "eu-west-2"
-            profile = "foo"
+            profile = "foo"            
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
         }
