@@ -14,7 +14,6 @@ class Runner(object):
 
     Pass in .tf file as argument on initialisation.
     """
-
     def __init__(self, snippet):
         self.snippet = snippet
         self.run()
@@ -55,12 +54,19 @@ class Runner(object):
 
     @staticmethod
     def json_to_dict(json_file):
+        """Return JSON file as Python object."""
         return json.loads(json_file)
 
     def _removetmpdir(self):
+        """Remove temp directory"""
         shutil.rmtree(self.tmpdir)
 
     def finder(parent, starts_with, matching_object):
+        """
+        :param starts_with: str
+        :param matching_object: dict
+        :return: boolean
+        """
         return finder(parent, starts_with, matching_object)
 
     def run(self):
