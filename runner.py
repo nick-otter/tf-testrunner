@@ -10,11 +10,11 @@ import glob
 from tf_assertion_helper import finder
 
 class Runner(object):
-    """Terraform converter, converting .tf files into JSON and Python.
-
-    Pass in .tf file as argument on initialisation.
-    """
+    """Convert terraform plan output into a Python dictionary."""
     def __init__(self, snippet):
+        """
+        :param snippet: .tf file
+        """
         self.snippet = snippet
         self.run()
 
